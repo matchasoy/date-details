@@ -1,11 +1,11 @@
 :root {
-  --bg-1: #ffd4c8;
-  --bg-2: #fff1ef;
-  --bg-3: #ffb9df;
-  --text: #4a1020;
-  --accent: #f6375d;
-  --accent-2: #f7b8a9;
-  --shadow: 0 18px 45px rgba(104, 30, 53, 0.14);
+  --background-one: #ffd6cc;
+  --background-two: #fff3f1;
+  --background-three: #ffc3e4;
+  --text: #4b1020;
+  --yes: #f43b63;
+  --no: #f8b8aa;
+  --shadow: 0 18px 45px rgba(103, 31, 53, 0.16);
 }
 
 * {
@@ -19,14 +19,12 @@ body {
 }
 
 body {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at 74% 78%, rgba(255, 134, 208, 0.52), transparent 24%),
-    radial-gradient(circle at 28% 42%, rgba(255, 255, 255, 0.72), transparent 30%),
-    linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 45%, var(--bg-3) 100%);
-  overflow: hidden;
+    radial-gradient(circle at 75% 80%, rgba(255, 141, 211, 0.52), transparent 25%),
+    radial-gradient(circle at 28% 42%, rgba(255, 255, 255, 0.75), transparent 30%),
+    linear-gradient(135deg, var(--background-one), var(--background-two) 48%, var(--background-three));
 }
 
 .page {
@@ -44,114 +42,84 @@ body {
   right: 0;
   margin: 0;
   font-size: 11px;
-  letter-spacing: 0.42em;
-  color: rgba(74, 16, 32, 0.7);
+  letter-spacing: 0.4em;
+  color: rgba(75, 16, 32, 0.7);
 }
 
 .hero {
   width: min(920px, 100%);
-  padding: 24px 18px 12px;
 }
 
 .title {
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(3.25rem, 7vw, 6.75rem);
-  line-height: 0.92;
+  font-size: clamp(3.2rem, 7vw, 6.8rem);
+  line-height: 0.93;
   letter-spacing: -0.05em;
-  font-weight: 700;
-  color: #4b0d1b;
-  text-wrap: balance;
+  color: var(--text);
 }
 
 .title span {
-  color: var(--accent);
+  color: var(--yes);
   font-style: italic;
 }
 
 .subtitle {
-  margin: 22px auto 0;
-  max-width: 520px;
-  font-size: 1rem;
-  line-height: 1.55;
-  color: rgba(74, 16, 32, 0.8);
+  max-width: 540px;
+  margin: 24px auto 0;
+  line-height: 1.6;
+  color: rgba(75, 16, 32, 0.8);
 }
 
 .button-stage {
   position: relative;
-  width: min(420px, 100%);
-  height: 155px;
-  margin: 28px auto 0;
+  width: min(430px, 100%);
+  height: 170px;
+  margin: 30px auto 0;
 }
 
 .answer {
   border: 0;
   border-radius: 999px;
-  padding: 16px 30px;
-  font-size: 1.08rem;
+  min-width: 130px;
+  padding: 16px 28px;
+  font-size: 1.05rem;
   font-weight: 700;
   cursor: pointer;
   box-shadow: var(--shadow);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+  transition: box-shadow 0.18s ease, opacity 0.18s ease;
   user-select: none;
-  -webkit-tap-highlight-color: transparent;
 }
 
 .answer:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 22px 55px rgba(104, 30, 53, 0.18);
+  box-shadow: 0 22px 55px rgba(103, 31, 53, 0.2);
 }
 
 .answer:focus-visible {
-  outline: 3px solid rgba(74, 16, 32, 0.25);
+  outline: 3px solid rgba(75, 16, 32, 0.25);
   outline-offset: 4px;
 }
 
-.answer--yes {
+/* The Yes button never moves. */
+#yes-button {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-110%, -50%);
-  min-width: 136px;
-  background: var(--accent);
+  transform: translate(-112%, -50%);
+  z-index: 2;
+  background: var(--yes);
   color: white;
 }
 
-.answer--no {
+/* Only the No button is repositioned by JavaScript. */
+#no-button {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(18%, -50%);
-  min-width: 118px;
-  background: var(--accent-2);
-  color: #4a1020;
-}
-
-.confetti-layer {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.confetti {
-  position: absolute;
-  top: -16px;
-  width: 10px;
-  height: 16px;
-  border-radius: 2px;
-  opacity: 0.95;
-  animation: confetti-fall var(--duration) linear forwards;
-  transform: translate3d(0, 0, 0) rotate(0deg);
-}
-
-@keyframes confetti-fall {
-  0% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
-  }
-  100% {
-    transform: translate3d(var(--drift), 110vh, 0) rotate(var(--spin));
-  }
+  z-index: 3;
+  background: var(--no);
+  color: var(--text);
 }
 
 .details-page {
@@ -159,121 +127,104 @@ body {
   display: grid;
   place-items: center;
   padding: 28px 18px;
-  text-align: center;
 }
 
 .details-card {
   width: min(760px, 100%);
-  background: rgba(255, 255, 255, 0.36);
+  padding: 36px 24px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.42);
   backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 34px;
   box-shadow: var(--shadow);
-  padding: 34px 24px;
 }
 
 .details-kicker {
-  margin: 0 0 8px;
+  margin: 0 0 10px;
   font-size: 11px;
   letter-spacing: 0.4em;
-  color: rgba(74, 16, 32, 0.72);
+  color: rgba(75, 16, 32, 0.7);
 }
 
 .details-title {
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(2.5rem, 5vw, 4.6rem);
+  font-size: clamp(2.7rem, 6vw, 4.8rem);
   line-height: 1;
-  color: #4b0d1b;
 }
 
 .details-copy {
-  margin: 18px auto 0;
   max-width: 560px;
-  font-size: 1rem;
+  margin: 18px auto 0;
   line-height: 1.7;
-  color: rgba(74, 16, 32, 0.84);
+  color: rgba(75, 16, 32, 0.82);
 }
 
 .detail-grid {
-  margin: 28px auto 0;
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 14px;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin-top: 28px;
 }
 
 .detail-item {
-  background: rgba(255, 255, 255, 0.55);
-  border-radius: 22px;
-  padding: 18px 16px;
+  padding: 18px;
   text-align: left;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.58);
 }
 
 .detail-label {
   display: block;
-  font-size: 0.78rem;
+  margin-bottom: 8px;
+  font-size: 0.75rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(74, 16, 32, 0.6);
-  margin-bottom: 8px;
+  color: rgba(75, 16, 32, 0.58);
 }
 
 .detail-value {
-  display: block;
-  font-size: 1.12rem;
-  line-height: 1.45;
-  color: var(--text);
+  font-size: 1.1rem;
   font-weight: 700;
+  line-height: 1.45;
 }
 
 .back-link {
   display: inline-block;
-  margin-top: 24px;
-  color: var(--text);
-  text-decoration: none;
-  font-weight: 700;
-  background: rgba(255, 255, 255, 0.45);
+  margin-top: 26px;
   padding: 12px 18px;
   border-radius: 999px;
-}
-
-.back-link:hover {
-  background: rgba(255, 255, 255, 0.62);
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--text);
+  font-weight: 700;
+  text-decoration: none;
 }
 
 @media (max-width: 640px) {
-  body {
-    overflow: auto;
-  }
-
   .eyebrow {
     top: 18px;
     font-size: 10px;
-    letter-spacing: 0.32em;
+    letter-spacing: 0.3em;
   }
 
   .hero {
     padding-top: 46px;
   }
 
-  .subtitle {
-    font-size: 0.95rem;
-  }
-
   .button-stage {
-    height: 190px;
+    height: 210px;
   }
 
-  .answer--yes {
-    transform: translate(-50%, -62px);
+  #yes-button {
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, -60px);
   }
 
-  .answer--no {
-    transform: translate(-50%, 16px);
-  }
-
-  .details-card {
-    padding: 28px 18px;
-    border-radius: 28px;
+  #no-button {
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, 20px);
   }
 }
