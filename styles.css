@@ -259,3 +259,26 @@ body {
       rotate(var(--spin));
   }
 }
+
+.details-hero {
+  width: 100%;
+  margin: 0 auto 32px;
+  text-align: center;
+}
+
+.details-hero .eyebrow {
+  position: static;
+  display: block;
+  margin: 0 auto 12px;
+}
+
+.details-hero h1 {
+  margin: 0 auto 16px;
+  text-align: center;
+}
+
+.details-hero .details-intro {
+  max-width: 560px;
+  margin: 0 auto;
+  text-align: center;
+}
