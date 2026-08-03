@@ -19,7 +19,10 @@ function randomBetween(min, max) {
 }
 
 function makeConfetti() {
-  if (!confettiLayer) return;
+  if (!confettiLayer) {
+    console.error('Confetti layer was not found.');
+    return;
+  }
 
   const colors = [
     '#f42e56',
@@ -30,19 +33,17 @@ function makeConfetti() {
     '#ffffff'
   ];
 
-  const count = window.innerWidth < 600 ? 70 : 120;
-
-  for (let index = 0; index < count; index += 1) {
+  for (let i = 0; i < 120; i += 1) {
     const piece = document.createElement('span');
 
-    piece.className = 'confetti';
-    piece.style.left = `${Math.random() * 100}%`;
-    piece.style.background =
+    piece.classList.add('confetti');
+    piece.style.left = `${Math.random() * 100}vw`;
+    piece.style.backgroundColor =
       colors[Math.floor(Math.random() * colors.length)];
 
     piece.style.setProperty(
       '--duration',
-      `${randomBetween(2.8, 5.2)}s`
+      `${randomBetween(2.2, 4)}s`
     );
 
     piece.style.setProperty(
@@ -55,7 +56,8 @@ function makeConfetti() {
       `${randomBetween(360, 1080)}deg`
     );
 
-    piece.style.animationDelay = `${randomBetween(0, 0.35)}s`;
+    piece.style.animationDelay =
+      `${randomBetween(0, 0.3)}s`;
 
     confettiLayer.appendChild(piece);
 
@@ -69,14 +71,12 @@ function goToDetails() {
   if (redirecting) return;
 
   redirecting = true;
-  yesButton.disabled = true;
-  noButton.disabled = true;
 
   makeConfetti();
 
   setTimeout(() => {
     window.location.href = './date-details.html';
-  }, 1000);
+  }, 1800);
 }
 
 function moveNoButton() {
@@ -101,11 +101,8 @@ function moveNoButton() {
     stageRect.height - buttonRect.height - padding
   );
 
-  const nextX =
-    padding + Math.random() * Math.max(1, maxX - padding);
-
-  const nextY =
-    padding + Math.random() * Math.max(1, maxY - padding);
+  const nextX = randomBetween(padding, maxX);
+  const nextY = randomBetween(padding, maxY);
 
   noButton.style.position = 'absolute';
   noButton.style.left = `${nextX}px`;
