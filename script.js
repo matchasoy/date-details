@@ -1,8 +1,10 @@
 const yesButton = document.querySelector('#yes-button');
 const noButton = document.querySelector('#no-button');
 const buttonStage = document.querySelector('#button-stage');
+const confettiLayer = document.querySelector('#confetti-layer');
 
 let escapeCount = 0;
+let redirecting = false;
 
 const noLabels = [
   'No 🥺',
@@ -12,11 +14,74 @@ const noLabels = [
   'Last chance 😭'
 ];
 
+function randomBetween(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function makeConfetti() {
+  if (!confettiLayer) return;
+
+  const colors = [
+    '#f42e56',
+    '#ff8fa8',
+    '#ffc0b3',
+    '#8b1230',
+    '#ffd166',
+    '#ffffff'
+  ];
+
+  const count = window.innerWidth < 600 ? 70 : 120;
+
+  for (let index = 0; index < count; index += 1) {
+    const piece = document.createElement('span');
+
+    piece.className = 'confetti';
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.background =
+      colors[Math.floor(Math.random() * colors.length)];
+
+    piece.style.setProperty(
+      '--duration',
+      `${randomBetween(2.8, 5.2)}s`
+    );
+
+    piece.style.setProperty(
+      '--drift',
+      `${randomBetween(-180, 180)}px`
+    );
+
+    piece.style.setProperty(
+      '--spin',
+      `${randomBetween(360, 1080)}deg`
+    );
+
+    piece.style.animationDelay = `${randomBetween(0, 0.35)}s`;
+
+    confettiLayer.appendChild(piece);
+
+    piece.addEventListener('animationend', () => {
+      piece.remove();
+    });
+  }
+}
+
 function goToDetails() {
-  window.location.href = './date-details.html';
+  if (redirecting) return;
+
+  redirecting = true;
+  yesButton.disabled = true;
+  noButton.disabled = true;
+
+  makeConfetti();
+
+  setTimeout(() => {
+    window.location.href = './date-details.html';
+  }, 1000);
 }
 
 function moveNoButton() {
+  if (redirecting) return;
+
   escapeCount += 1;
 
   noButton.textContent =
