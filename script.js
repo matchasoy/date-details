@@ -4,7 +4,6 @@ const buttonStage = document.querySelector('#button-stage');
 const confettiLayer = document.querySelector('#confetti-layer');
 
 let escapeCount = 0;
-let redirecting = false;
 
 const noLabels = [
   'No 🥺',
@@ -21,9 +20,8 @@ function randomBetween(min, max) {
 
 function makeConfetti() {
   const colors = ['#f42e56', '#ff8fa8', '#ffc0b3', '#8b1230', '#ffd166', '#ffffff'];
-  const count = window.innerWidth < 600 ? 70 : 120;
 
-  for (let index = 0; index < count; index += 1) {
+  for (let i = 0; i < 100; i += 1) {
     const piece = document.createElement('span');
     piece.className = 'confetti';
     piece.style.left = `${Math.random() * 100}%`;
@@ -41,22 +39,18 @@ function goToDetails() {
   makeConfetti();
   setTimeout(() => {
     window.location.href = 'date-details.html';
-  }, 900);
+  }, 700);
 }
 
-yesButton.addEventListener('click', goToDetails);
-
 function moveNoButton() {
-  if (redirecting) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
   escapeCount += 1;
   noButton.textContent = noLabels[Math.min(escapeCount, noLabels.length - 1)];
 
   if (escapeCount >= noLabels.length - 1) {
+    noButton.textContent = 'Yes 💘';
     noButton.classList.remove('answer--no');
     noButton.classList.add('answer--yes');
-    noButton.textContent = 'Yes 💘';
+    noButton.style.position = 'absolute';
     noButton.style.left = '50%';
     noButton.style.top = '50%';
     noButton.style.transform = 'translate(-50%, -50%)';
@@ -70,13 +64,8 @@ function moveNoButton() {
   const buttonRect = noButton.getBoundingClientRect();
   const padding = 8;
 
-  const minX = padding;
-  const maxX = Math.max(minX, stageRect.width - buttonRect.width - padding);
-  const minY = padding;
-  const maxY = Math.max(minY, stageRect.height - buttonRect.height - padding);
-
-  const nextX = randomBetween(minX, maxX);
-  const nextY = randomBetween(minY, maxY);
+  const nextX = randomBetween(padding, Math.max(padding, stageRect.width - buttonRect.width - padding));
+  const nextY = randomBetween(padding, Math.max(padding, stageRect.height - buttonRect.height - padding));
 
   noButton.style.position = 'absolute';
   noButton.style.left = `${nextX}px`;
@@ -92,9 +81,3 @@ function handleNoClick(event) {
 yesButton.addEventListener('click', goToDetails);
 noButton.addEventListener('pointerenter', moveNoButton);
 noButton.addEventListener('click', handleNoClick);
-
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter' && document.activeElement === yesButton) {
-    goToDetails();
-  }
-});
