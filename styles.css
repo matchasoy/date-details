@@ -228,3 +228,34 @@ body {
     transform: translate(-50%, 20px);
   }
 }
+.confetti-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.confetti {
+  position: absolute;
+  top: -20px;
+  width: 10px;
+  height: 16px;
+  border-radius: 2px;
+  animation-name: confetti-fall;
+  animation-duration: var(--duration);
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes confetti-fall {
+  from {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  to {
+    transform:
+      translate3d(var(--drift), 110vh, 0)
+      rotate(var(--spin));
+  }
+}
