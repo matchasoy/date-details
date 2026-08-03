@@ -1,7 +1,10 @@
 const yesButton = document.querySelector('#yes-button');
 const noButton = document.querySelector('#no-button');
 const buttonStage = document.querySelector('#button-stage');
-const confettiLayer = document.querySelector('#confetti-layer');
+
+if (!yesButton || !noButton || !buttonStage) {
+  throw new Error('Missing required elements in index.html');
+}
 
 let escapeCount = 0;
 
@@ -14,32 +17,8 @@ const noLabels = [
   'Okay, yes 💘'
 ];
 
-function randomBetween(min, max) {
-  return Math.random() * (max - min) + min;
-}
-
-function makeConfetti() {
-  const colors = ['#f42e56', '#ff8fa8', '#ffc0b3', '#8b1230', '#ffd166', '#ffffff'];
-
-  for (let i = 0; i < 100; i += 1) {
-    const piece = document.createElement('span');
-    piece.className = 'confetti';
-    piece.style.left = `${Math.random() * 100}%`;
-    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-    piece.style.setProperty('--duration', `${randomBetween(2.8, 5.2)}s`);
-    piece.style.setProperty('--drift', `${randomBetween(-180, 180)}px`);
-    piece.style.setProperty('--spin', `${randomBetween(360, 1080)}deg`);
-    piece.style.animationDelay = `${randomBetween(0, 0.35)}s`;
-    confettiLayer.appendChild(piece);
-    piece.addEventListener('animationend', () => piece.remove());
-  }
-}
-
 function goToDetails() {
-  makeConfetti();
-  setTimeout(() => {
-    window.location.href = 'date-details.html';
-  }, 700);
+  window.location.href = './date-details.html';
 }
 
 function moveNoButton() {
@@ -64,8 +43,8 @@ function moveNoButton() {
   const buttonRect = noButton.getBoundingClientRect();
   const padding = 8;
 
-  const nextX = randomBetween(padding, Math.max(padding, stageRect.width - buttonRect.width - padding));
-  const nextY = randomBetween(padding, Math.max(padding, stageRect.height - buttonRect.height - padding));
+  const nextX = padding + Math.random() * Math.max(1, stageRect.width - buttonRect.width - padding * 2);
+  const nextY = padding + Math.random() * Math.max(1, stageRect.height - buttonRect.height - padding * 2);
 
   noButton.style.position = 'absolute';
   noButton.style.left = `${nextX}px`;
