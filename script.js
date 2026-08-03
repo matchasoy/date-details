@@ -38,18 +38,13 @@ function makeConfetti() {
 }
 
 function goToDetails() {
-  if (redirecting) return;
-  redirecting = true;
-
-  yesButton.disabled = true;
-  noButton.disabled = true;
-
   makeConfetti();
-
   setTimeout(() => {
     window.location.href = 'date-details.html';
   }, 900);
 }
+
+yesButton.addEventListener('click', goToDetails);
 
 function moveNoButton() {
   if (redirecting) return;
